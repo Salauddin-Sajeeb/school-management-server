@@ -2,8 +2,8 @@
 module.exports = (app) => {
     const con = require("../models/db");
     const authenticateToken = require("../middleware/middleware");
-    app.get('/api/status', (req, res) => {
 
+    app.get('/api/status', (req, res) => {
         var sql = `SELECT student.student_code,section.section_default_name,concat(student.first_name," " ,student.middle_name) as name, session.session_year,student_present_status.student_id,student_present_status.class_id,student_present_status.session_id,class.class_name,student_present_status.shift_id,student_present_status.class_roll_no,student_present_status.school_info_id from student 
          JOIN student_present_status ON student.id = student_present_status.student_id
          JOIN school_info ON school_info.id = student_present_status.school_info_id INNER JOIN session ON session.id = student_present_status.session_id 
@@ -14,8 +14,7 @@ module.exports = (app) => {
             if (err) throw err;
             res.send(result);
         });
-
-    })
+    });
 
     app.post("/api/exam_mark", authenticateToken, (req, res) => {
         var exam_info_id = req.body.exam_info_id;
@@ -39,7 +38,8 @@ module.exports = (app) => {
             if (err) throw err;
             res.send(result)
         })
-    })
+    });
+
     app.post("/api/status", authenticateToken, (req, res) => {
 
         var school_info_id = req.body.school_info_id;
@@ -57,6 +57,7 @@ module.exports = (app) => {
             res.json({ status: "success" });
         });
     });
+
     app.get("/api/student-check", authenticateToken, (req, res) => {
         var sql = `select student_present_status.id ,class.id as class,school_info.school_name, student.school_info_id as school_id from student_present_status 
         inner join student on student_present_status.student_id=student.id
@@ -67,5 +68,5 @@ module.exports = (app) => {
             if (err) throw err;
             res.send(result[0])
         })
-    })
+    });
 }

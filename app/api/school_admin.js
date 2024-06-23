@@ -1,14 +1,13 @@
 module.exports = (app) => {
     const con = require('../models/db')
     const authenticateToken = require("../middleware/middleware");
+
     app.post("/api/create_class", authenticateToken, (req, res) => {
         var school_type_id = req.body.school_type_id;
         var shift_id = req.body.shift_id;
         var class_code = req.body.class_code;
         var class_name = req.body.class_name;
-
         var sql = `INSERT INTO class (school_type_id, shift_id, class_code, class_name) VALUES ("${school_type_id}", "${shift_id}", "${class_code}", "${class_name}")`;
-
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             res.json({ status: "success" });
@@ -18,7 +17,6 @@ module.exports = (app) => {
     app.post("/api/create_section", authenticateToken, (req, res) => {
         var section_default_name = req.body.section_default_name;
         var sql = `INSERT INTO section (section_default_name) VALUES ("${section_default_name}")`;
-
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             res.json({ status: "success" });
@@ -30,7 +28,6 @@ module.exports = (app) => {
         var subject_name = req.body.subject_name;
         var class_id = req.body.class_id;
         var school_type_id = req.body.school_type_id
-
         var sql = `INSERT INTO subject (subject_code,subject_name, class_id, school_type_id) VALUES ("${subject_code}","${subject_name}", "${class_id}", "${school_type_id}")`;
 
         con.query(sql, function (err, result, fields) {
@@ -38,13 +35,13 @@ module.exports = (app) => {
             res.json({ status: "success" });
         });
     });
+
     app.post("/api/create_period", authenticateToken, (req, res) => {
         var start_time = req.body.start_time;
         var end_time = req.body.end_time;
         var shift_id = req.body.shift_id;
         var period_code = req.body.period_code;
         var school_type_id = req.body.school_type_id
-
         var sql = `INSERT INTO period (school_type_id,shift_id,period_code) VALUES ("${school_type_id}","${shift_id}","${period_code}")`;
 
         con.query(sql, function (err, result, fields) {
@@ -70,8 +67,6 @@ module.exports = (app) => {
         var mobile = req.body.mobile;
         var email = req.body.email;
         var school_info_id = req.body.school_info_id;
-
-
         var sql = `INSERT INTO teacher (teacher_code,title,first_name,middle_name,last_name,initial,subject_code,designation,department,dob,blood_group,mpo_status,index_no,mobile,email,school_info_id) VALUES ("${teacher_code}","${title}","${first_name}","${middle_name}","${last_name}","${initial}","${subject_code}","${designation}","${department}","${dob}","${blood_group}","${mpo_status}","${index_no}","${mobile}","${email}","${school_info_id}")`;
 
         con.query(sql, function (err, result, fields) {
@@ -112,8 +107,6 @@ module.exports = (app) => {
         var email = req.body.email;
         var school_info_id = req.body.school_info_id;
         var division_id = req.body.division_id;
-
-
         var sql = `INSERT INTO student (student_code,first_name,middle_name,last_name,mobile_no,gender_id,division_id,email,present_address,permanent_address,father_name,father_phone_number,mother_name,mother_phone_number,dob,blood_group,photo_id,school_info_id) VALUES ("${student_code}","${first_name}","${middle_name}","${last_name}","${mobile_no}","${gender_id}","${division_id}","${email}","${present_address}","${permanent_address}","${father_name}","${father_phone_number}","${mother_name}","${mother_phone_number}","${dob}","${blood_group}","${photo_id}","${school_info_id}")`;
 
         con.query(sql, function (err, result, fields) {

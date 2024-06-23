@@ -2,6 +2,7 @@
 module.exports = (app) => {
     const con = require('../models/db')
     const authenticateToken = require("../middleware/middleware");
+
     app.get("/api/exam_info", (req, res) => {
         var sql = `select exam_info.id, session.session_year,exam_name.exam_name, class.class_name,section.section_default_name,subject.subject_name, teacher.teacher_code,converted_marks,full_marks,exam_date
         from exam_info
@@ -33,6 +34,7 @@ module.exports = (app) => {
             }
         );
     });
+
     app.get("/api/exam_info_check", authenticateToken, (req, res) => {
         var sql = "select *  from exam_name";
         con.query(
@@ -43,6 +45,7 @@ module.exports = (app) => {
             }
         );
     });
+
     app.post("/api/exam_info", authenticateToken, (req, res) => {
         var class_id = req.body.class_id;
         var section_id = req.body.section_id;
@@ -54,9 +57,7 @@ module.exports = (app) => {
         var teacher = req.body.teacher_id;
         var converted_marks = req.body.converted_marks;
         var school_info_id = req.body.school_info_id
-
         var sql = `INSERT INTO exam_info (class_id, section_id, subject_id, session_id,exam_name_id,converted_marks,school_info_id,full_marks,teacher_id,exam_date) VALUES ("${class_id}", "${section_id}", "${subject_id}", "${session_id}", "${exam_name_id}","${converted_marks}","${school_info_id}","${full_marks}","${teacher}","${exam_date}")`;
-
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             res.json({ status: "success" });

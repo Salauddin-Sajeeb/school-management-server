@@ -3,11 +3,11 @@ require("dotenv").config();
 const authenticateToken = require("../middleware/middleware");
 module.exports = (app) => {
   const con = require("../models/db");
+
   app.post("/api/users/login", (req, res) => {
     var user_code = req.body.user_code;
     var password = req.body.password;
     var sql = `select user_code,user_type_id,password from users where user_code = "${user_code}"`;
-
     con.query(sql, function (err, result, fields) {
       if (err) throw err;
       if (!result.length) res.json({ errorMsg: "User does not exist" });
@@ -51,9 +51,7 @@ module.exports = (app) => {
         table_name = "administrator";
         break;
     }
-
     var sql = null;
-
     switch (table_name) {
       case "student_present_status":
         sql = `select student_present_status.id ,class.id as class,school_info.school_name, student.school_info_id as school_id from student_present_status 
@@ -101,7 +99,6 @@ module.exports = (app) => {
 
   app.post("/api/update_user", authenticateToken, (req, res) => {
     var Pass = req.body.Pass;
-
     var sql = `UPDATE users
     SET password = '${Pass}'
     WHERE user_code = "${req.query.user_code}"`;
@@ -116,7 +113,6 @@ module.exports = (app) => {
 
   app.get("/api/update_profile", (req, res) => {
     var Pass = req.query.Pass;
-
     var sql = `select id ,user_type_id from users
     WHERE user_code = "${req.query.user_code}"`;
     con.query(

@@ -1,6 +1,7 @@
 module.exports = (app) => {
   const con = require("../models/db");
   const authenticateToken = require("../middleware/middleware");
+
   app.get("/api/school_info", (req, res) => {
     con.query(
       `SELECT id, school_name, type_id FROM school_info where administrator_id="${req.query.admin_id}"`,
@@ -9,19 +10,17 @@ module.exports = (app) => {
         res.send(result);
       }
     );
-
   });
+
   app.get("/api/school_name", (req, res) => {
     con.query(
       `SELECT id, school_name FROM school_info
-      
       where student_id="${req.query.student_id}"`,
       function (err, result, fields) {
         if (err) throw err;
         res.send(result);
       }
     );
-
   });
 
   app.get("/api/school_info/all", authenticateToken, (req, res) => {
@@ -30,12 +29,14 @@ module.exports = (app) => {
       res.send(result);
     });
   });
+
   app.get("/api/groups/all", authenticateToken, (req, res) => {
     con.query("SELECT * FROM group", function (err, result, fields) {
       if (err) throw err;
       res.send(result);
     });
   });
+  
   app.get("/api/forthSubjectList", authenticateToken, (req, res) => {
     con.query("SELECT * FROM subject_4th_registration", function (err, result, fields) {
       if (err) throw err;

@@ -28,6 +28,7 @@ module.exports = (app) => {
       res.send(result);
     });
   });
+  
   app.get("/api/routine/admin-search", (req, res) => {
     var sql = `select routine.id, routine.section_id,section.section_default_name, routine.teacher_id,end_time,start_time, class.class_name,day.day, period.period_code, routine.start_time, routine.end_time, routine.subject_id, subject.subject_name, teacher.first_name, room, session.session_year, shift.shift_name,teacher.initial
     from routine

@@ -2,13 +2,11 @@ module.exports = (app) => {
 
     const con = require('../models/db')
     const authenticateToken = require("../middleware/middleware");
+
     app.post("/api/organization", authenticateToken, (req, res) => {
         var Organization_type = req.body.Organization_type;
         var organization_code = req.body.organization_code;
-
-
         var sql = `INSERT INTO Organization_tpe (Organization_type,organization_code) VALUES ("${Organization_type}","${organization_code}")`;
-
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             res.json({ status: "success" });
@@ -35,10 +33,7 @@ module.exports = (app) => {
         var contact_person_phone = req.body.contact_person_phone;
         var contact_person_email = req.body.contact_person_email;
         var status = req.body.status;
-
-
         var sql = `INSERT INTO school_info (type_id,school_code,eiin,administrator_id,school_name,short_name,address_division,address_district,address_upazila,	address_village,school_phone,school_email,school_head_name,school_head_phone,school_head_email,contact_person_name,contact_person_phone,contact_person_email,status) VALUES ("${type_id}","${school_code}","${eiin}","${administrator_id}","${school_name}","${short_name}","${address_division}","${address_district}","${address_upazila}","${address_village}","${school_phone}","${school_email}","${school_head_name}","${school_head_phone}","${school_head_email}","${contact_person_name}","${contact_person_phone}","${contact_person_email}","${status})`;
-
         con.query(sql, function (err, result, fields) {
             if (err) throw err;
             res.json({ status: "success" });

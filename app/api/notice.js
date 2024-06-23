@@ -23,6 +23,7 @@ module.exports = (app) => {
       res.send(result);
     });
   });
+
   app.get("/api/notice/school", authenticateToken, (req, res) => {
     var sql = `select notice.id, notice.school_info_id, session.session_year,notice.type, notice.section_id, class.class_name,  notice.notice_headline, notice.notice_description, notice.publishing_date,section.section_default_name
     from notice
@@ -37,6 +38,7 @@ module.exports = (app) => {
       res.send(result);
     });
   });
+
   app.get("/api/notice/creator", (req, res) => {
     var sql = `select notice.id, notice.school_info_id, session.session_year, notice.section_id, class.class_name,  notice.notice_headline, notice.notice_description, notice.publishing_date,section.section_default_name
     from notice
@@ -51,6 +53,7 @@ module.exports = (app) => {
       res.send(result);
     });
   });
+
   app.post("/api/notice/delete", authenticateToken, (req, res) => {
     var id = req.query.id;
 
@@ -60,6 +63,7 @@ module.exports = (app) => {
       res.send(result);
     });
   });
+
   app.get("/api/notice/student", authenticateToken, (req, res) => {
     var sql = `select notice_user.id,notice_user.type, session.session_year, notice_user.notice_headline, notice_user.notice_description, notice_user.publishing_date,student.student_code
     from notice_user
@@ -150,6 +154,7 @@ module.exports = (app) => {
       res.json({ status: "success" });
     });
   });
+
   app.post("/api/notice", authenticateToken, (req, res) => {
     var school_info_id = req.body.school_info_id;
     var class_id = req.body.class_id;
@@ -161,9 +166,6 @@ module.exports = (app) => {
     var date = req.body.date;
     var uid = req.body.uid;
     var type = req.body.type;
-
-
-
     var sql = `INSERT INTO notice (session_id, school_info_id, class_id, section_id,  notice_headline, notice_description, publishing_date, user_code,type) VALUES ("${session_id}", "${school_info_id}", "${class_id}", "${section_id}", "${headline}", "${description}", "${date}", "${uid}","${type}") `;
 
     var sql2 = "INSERT INTO `notice_user` (session_id,student_id,notice_headline, notice_description, publishing_date, user_code,type) VALUES "
@@ -171,7 +173,6 @@ module.exports = (app) => {
       sql2 += `("${session_id}", "${st_id}","${headline}","${description}","${date}","${uid}","${type}"),`;
     });
     sql2 = sql2.slice(0, -1);
-
     con.query(sql, function (err, result, fields) {
       if (err) throw err;
       if (!err) {
