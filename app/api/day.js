@@ -9,7 +9,7 @@ module.exports = (app) => {
     });
   });
   
-  app.get("/api/day/all", authenticateToken, (req, res) => {
+  app.get("/api/day/all",  (req, res) => {
     con.query("SELECT * FROM day", function (err, result, fields) {
       if (err) throw err;
       res.send(result);
