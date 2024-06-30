@@ -158,7 +158,7 @@ module.exports = (app) => {
       res.send(result);
     });
   });
-  
+
   app.post("/api/homework/delete", authenticateToken, (req, res) => {
     let id = req.params.id;
     var sql = `delete from home_work where id="${req.query.id}"`;
