@@ -1,6 +1,6 @@
 module.exports = {
   HOST: "sql12.freesqldatabase.com",
-  USER: "sql12717082",
-  PASSWORD: "YlXHE1dU5S",
-  DB: "sql12717082"
+  USER: "sql12727815",
+  PASSWORD: "2TpIpQcyej",
+  DB: "sql12727815"
 };
