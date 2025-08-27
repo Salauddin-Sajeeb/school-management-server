@@ -1,23 +1,31 @@
+// server.js
 const express = require("express");
-const bodyparser = require("body-parser");
-const PORT = process.env.PORT || 5000;
 const cors = require("cors");
 
 const app = express();
-const corsOptions ={
-  origin:'*', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}
-app.use(cors(corsOptions)) // Use this after the variable declaration
 
+// --- CORS
+// NOTE: If you use credentials, '*' is not allowed by browsers.
+// Prefer setting a specific origin via an env var like CORS_ORIGIN.
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN?.split(",") || "*",
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 
-app.use(bodyparser.json());
+// --- body parsing (no need for body-parser)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+// --- health/base routes
+app.get("/", (_req, res) => {
   res.json({ message: "Welcome to school-manager application." });
 });
 
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
+
+// --- your feature routes (unchanged paths)
 require("./app/api/class.js")(app);
 require("./app/api/section.js")(app);
 require("./app/api/period.js")(app);
@@ -42,11 +50,11 @@ require("./app/api/school_admin")(app);
 require("./app/api/super_admin")(app);
 require("./app/api/exam.marks")(app);
 
+// --- Export a handler for Vercel serverless runtime
+module.exports = (req, res) => app(req, res);
+
+// --- Local dev server (Vercel ignores this)
 if (!process.env.VERCEL) {
   const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Express is working on port ${PORT}`));
+  app.listen(PORT, () => console.log(`Express running on http://localhost:${PORT}`));
 }
-const server = app.listen(PORT, () => {
-  const port = server.address().port;
-  console.log(`Express is working on port ${port}`);
-}); 
