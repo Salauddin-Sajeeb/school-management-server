@@ -42,6 +42,10 @@ require("./app/api/school_admin")(app);
 require("./app/api/super_admin")(app);
 require("./app/api/exam.marks")(app);
 
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Express is working on port ${PORT}`));
+}
 const server = app.listen(PORT, () => {
   const port = server.address().port;
   console.log(`Express is working on port ${port}`);
